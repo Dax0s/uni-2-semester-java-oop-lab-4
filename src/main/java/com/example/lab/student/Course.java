@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class Course {
+public class Course {
     private final UUID id;
     private String name;
     private final List<Student> students;
@@ -39,5 +39,9 @@ public abstract class Course {
 
     public String getName() {
         return this.name;
+    }
+
+    public int getStudentCount() {
+        return students.size();
     }
 }

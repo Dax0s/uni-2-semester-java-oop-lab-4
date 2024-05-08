@@ -2,11 +2,13 @@ package com.example.lab.controllers;
 
 import com.example.lab.Singleton;
 import com.example.lab.student.Student;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.util.List;
 
@@ -28,15 +30,33 @@ public class StudentsViewController {
 
         TableColumn<Student, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setEditable(true);
 
         TableColumn<Student, String> surnameColumn = new TableColumn<>("Surname");
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
 
-        studentTableView.getColumns().clear();
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        surnameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        nameColumn.setOnEditCommit(
+                e -> {
+                    (e.getTableView().getItems().get(
+                            e.getTablePosition().getRow())
+                    ).setName(e.getNewValue());
+                }
+        );
+        surnameColumn.setOnEditCommit(
+                e -> (e.getTableView().getItems().get(
+                        e.getTablePosition().getRow())
+                ).setSurname(e.getNewValue())
+        );
+
+        nameColumn.setEditable(true);
+        surnameColumn.setEditable(true);
+
         studentTableView.getColumns().add(nameColumn);
         studentTableView.getColumns().add(surnameColumn);
 
-        studentTableView.getItems().clear();
         for (Student student : students) {
             studentTableView.getItems().add(student);
         }
@@ -52,5 +72,19 @@ public class StudentsViewController {
 
         studentTableView.getItems().add(student);
         students.add(student);
+    }
+
+    @FXML
+    protected void onEditingModeButtonClick() {
+        studentTableView.setEditable(!studentTableView.isEditable());
+    }
+
+    @FXML
+    protected void onSaveButtonClick() {
+        System.out.println("----------------");
+        for (Student student : students) {
+            System.out.println("Name: " + student.getName() + " Surname: " + student.getSurname());
+        }
+        System.out.println("----------------");
     }
 }
