@@ -47,6 +47,9 @@ public class StudentsViewController {
     protected void onAddStudentButtonClick() {
         Student student = new Student(studentName.getText(), studentSurname.getText());
 
+        studentName.setText("");
+        studentSurname.setText("");
+
         studentTableView.getItems().add(student);
         students.add(student);
     }
