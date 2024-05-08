@@ -1,7 +1,10 @@
 package com.example.lab;
 
+import com.example.lab.controllers.CoursesViewController;
+import com.example.lab.controllers.MainBorderPaneController;
 import com.example.lab.student.Course;
 import com.example.lab.student.Student;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -18,6 +21,8 @@ public class Singleton {
     private BorderPane mainBorderPane;
     private AnchorPane studentsAnchorPane;
     private AnchorPane coursesAnchorPane;
+
+    private CoursesViewController coursesViewController;
 
     private CurrentTab currentTab = CurrentTab.STUDENTS;
 
@@ -74,5 +79,13 @@ public class Singleton {
 
     public void setCoursesAnchorPane(AnchorPane coursesAnchorPane) {
         this.coursesAnchorPane = coursesAnchorPane;
+    }
+
+    public CoursesViewController getCoursesViewController() {
+        return coursesViewController;
+    }
+
+    public void setCoursesViewController(CoursesViewController coursesViewController) {
+        this.coursesViewController = coursesViewController;
     }
 }

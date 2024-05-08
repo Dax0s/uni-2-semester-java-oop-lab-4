@@ -25,9 +25,11 @@ public class HelloApplication extends Application {
         Singleton.getInstance().setStudentsAnchoPane(studentsAnchorPane);
         Singleton.getInstance().setCoursesAnchorPane(coursesAnchorPane);
 
+        Singleton.getInstance().setCoursesViewController(coursesAnchorPaneLoader.getController());
+
         pane.setCenter(studentsAnchorPane);
 
-        Scene scene = new Scene(pane, 900, 600);
+        Scene scene = new Scene(pane, 1200, 600);
         stage.setTitle("Lab 4");
         stage.setScene(scene);
         stage.show();

@@ -20,12 +20,14 @@ public class Course {
     }
 
     public void addStudent(Student student) {
-        this.students.add(student);
+        if (students.contains(student)) return;
+
+        students.add(student);
         student.addCourse(this);
     }
 
     public void removeStudent(Student student) {
-        this.students.remove(student);
+        students.remove(student);
         student.removeCourse(this);
     }
 

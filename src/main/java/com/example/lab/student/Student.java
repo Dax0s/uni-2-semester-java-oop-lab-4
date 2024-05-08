@@ -25,6 +25,11 @@ public class Student {
         this.courses.remove(course);
     }
 
+    @Override
+    public String toString() {
+        return name + " " + surname;
+    }
+
     public UUID getId() {
         return id;
     }
