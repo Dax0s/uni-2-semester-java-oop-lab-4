@@ -77,6 +77,11 @@ public class CoursesViewController {
         courseChoiceBox.setItems(courseChoicesList);
         courseChoiceBox.setConverter(courseStringConverter);
 
+        courseChoiceBox.setOnAction(actionEvent -> {
+            studentChoicesList.removeAll(courseChoiceBox.getValue().getStudents());
+            studentChoiceBox.setItems(FXCollections.observableArrayList(studentChoicesList));
+        });
+
         studentChoicesList = FXCollections.observableArrayList(students);
         studentChoiceBox.setItems(studentChoicesList);
         studentChoiceBox.setConverter(studentStringConverter);
@@ -127,6 +132,11 @@ public class CoursesViewController {
 
         if (removeCourseChoiceBox.getValue() != null)
             removeStudentChoiceBox.setItems(FXCollections.observableArrayList(removeCourseChoiceBox.getValue().getStudents()));
+
+        if (courseChoiceBox.getValue() != null) {
+            studentChoicesList.removeAll(courseChoiceBox.getValue().getStudents());
+            studentChoiceBox.setItems(FXCollections.observableArrayList(studentChoicesList));
+        }
     }
 
     @FXML
@@ -137,5 +147,11 @@ public class CoursesViewController {
         removeStudentChoiceBox.setItems(FXCollections.observableArrayList(removeCourseChoiceBox.getValue().getStudents()));
 
         courseTableView.refresh();
+
+        if (courseChoiceBox.getValue() != null) {
+            studentChoicesList = FXCollections.observableArrayList(students);
+            studentChoicesList.removeAll(courseChoiceBox.getValue().getStudents());
+            studentChoiceBox.setItems(FXCollections.observableArrayList(studentChoicesList));
+        }
     }
 }
