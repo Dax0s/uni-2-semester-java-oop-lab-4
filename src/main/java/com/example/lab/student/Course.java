@@ -6,12 +6,12 @@ import java.util.UUID;
 
 public class Course {
     private final UUID id;
-    private String name;
+    private String title;
     private final List<Student> students;
 
-    public Course(String name) {
+    public Course(String title) {
         this.id = UUID.randomUUID();
-        this.name = name;
+        this.title = title;
         students = new ArrayList<>();
     }
 
@@ -33,12 +33,12 @@ public class Course {
         return this.students;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getName() {
-        return this.name;
+    public String getTitle() {
+        return this.title;
     }
 
     public int getStudentCount() {

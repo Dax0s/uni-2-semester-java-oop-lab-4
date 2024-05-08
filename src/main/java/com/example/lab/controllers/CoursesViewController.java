@@ -24,17 +24,15 @@ public class CoursesViewController {
     private void initialize() {
         courses = singleton.getCourses();
 
-        TableColumn<Course, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Course, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        TableColumn<Course, String> surnameColumn = new TableColumn<>("Amount of students");
-        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("studentCount"));
+        TableColumn<Course, String> amountOfStudentsColumn = new TableColumn<>("Amount of students");
+        amountOfStudentsColumn.setCellValueFactory(new PropertyValueFactory<>("studentCount"));
 
-        courseTableView.getColumns().clear();
-        courseTableView.getColumns().add(nameColumn);
-        courseTableView.getColumns().add(surnameColumn);
+        courseTableView.getColumns().add(titleColumn);
+        courseTableView.getColumns().add(amountOfStudentsColumn);
 
-        courseTableView.getItems().clear();
         for (Course course : courses) {
             courseTableView.getItems().add(course);
         }
