@@ -1,5 +1,6 @@
 package com.example.lab.controllers;
 
+import com.example.lab.Singleton;
 import com.example.lab.student.Student;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -21,11 +22,12 @@ public class StudentViewController {
     @FXML
     private TableView<Student> studentTableView = new TableView<>();
 
+    private final Singleton singleton = Singleton.getInstance();
     private List<Student> students;
 
     @FXML
     private void initialize() {
-        students = new ArrayList<>();
+        students = singleton.getStudents();
 
         TableColumn<Student, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -38,9 +40,9 @@ public class StudentViewController {
         studentTableView.getColumns().add(surnameColumn);
 
         studentTableView.getItems().clear();
-//        for (Student student : students) {
-//            studentTableView.getItems().add(student);
-//        }
+        for (Student student : students) {
+            studentTableView.getItems().add(student);
+        }
 
     }
 
