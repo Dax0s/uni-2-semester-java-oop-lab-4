@@ -15,6 +15,7 @@ public class MainBorderPaneController {
     protected void onCoursesButtonClick() {
         singleton.getCoursesViewController().updateStudentChoiceBox();
         singleton.getCoursesViewController().updateCourses();
+        singleton.getCoursesViewController().resetScheduleButtons();
         singleton.getMainBorderPane().setCenter(singleton.getCoursesAnchorPane());
     }
 

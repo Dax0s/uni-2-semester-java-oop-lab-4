@@ -137,7 +137,7 @@ public class CoursesViewController {
         TableColumn<Course, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        TableColumn<Course, String> amountOfStudentsColumn = new TableColumn<>("Amount of students");
+        TableColumn<Course, String> amountOfStudentsColumn = new TableColumn<>("Students");
         amountOfStudentsColumn.setCellValueFactory(new PropertyValueFactory<>("studentCount"));
 
         courseTableView.getColumns().add(titleColumn);
@@ -215,6 +215,12 @@ public class CoursesViewController {
         ToggleButton button = ((ToggleButton) event.getTarget());
 
         scheduleCourseChoiceBox.getValue().getSchedule().replace(button.getId(), button.isSelected());
+    }
+
+    public void resetScheduleButtons() {
+        for (ToggleButton button: scheduleButtons) {
+            button.setSelected(false);
+        }
     }
 
     private void disableScheduleButtons() {

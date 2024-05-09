@@ -43,9 +43,17 @@ public class FileViewController {
             for (int i = 1; i < data.size(); i++) {
                 String[] coursesString = data.get(i)[3].split(";");
 
-                for (String courseTitle : coursesString) {
+                for (String courseInfo : coursesString) {
+                    if (courseInfo.isBlank()) continue;
+
+                    String courseTitle = courseInfo.split(":")[0];
+                    String courseSchedule = "";
+
+                    if (courseInfo.split(":").length == 2)
+                        courseSchedule = courseInfo.split(":")[1];
+
                     if (courses.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle)).findFirst().isEmpty())
-                        courses.add(new Course(courseTitle));
+                        courses.add(new Course(courseTitle, courseSchedule));
                 }
             }
 
@@ -61,7 +69,7 @@ public class FileViewController {
                 String[] coursesString = data.get(i)[3].split(";");
 
                 for (String courseTitle : coursesString) {
-                    Optional<Course> currentCourse = courses.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle)).findFirst();
+                    Optional<Course> currentCourse = courses.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle.split(":")[0])).findFirst();
                     currentCourse.ifPresent(course -> course.addStudent(student));
                 }
             }

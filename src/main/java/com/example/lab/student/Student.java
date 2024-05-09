@@ -36,24 +36,41 @@ public class Student {
         return name + " " + surname;
     }
 
-    private String coursesToString() {
+    public String getCoursesString() {
         if (courses == null || courses.isEmpty()) return "";
         StringBuilder courses = new StringBuilder();
 
         for (Course course : this.courses) {
-            courses.append(course.getTitle()).append(";");
+            courses.append(course.getTitle()).append(", ");
         }
-        courses.deleteCharAt(courses.lastIndexOf(";"));
+        courses.deleteCharAt(courses.lastIndexOf(","));
 
         return courses.toString();
     }
 
     public String[] toCsvStringArray() {
-        return new String[]{id.toString(), name, surname, coursesToString()};
-    }
+        StringBuilder courses = new StringBuilder();
+        if (!this.courses.isEmpty()) {
+            for (Course course : this.courses) {
+                courses.append(course.getTitle());
+                if (course.getSchedule().containsValue(true))
+                    courses.append(":");
 
-    public String getCoursesString() {
-        return coursesToString().replace(";", ", ");
+                for (String key : course.getSchedule().keySet()) {
+                    if (course.getSchedule().get(key)) {
+                        courses.append(key).append(".");
+                    }
+                }
+
+                if (course.getSchedule().containsValue(true))
+                    courses.deleteCharAt(courses.lastIndexOf("."));
+
+                courses.append(";");
+            }
+            courses.deleteCharAt(courses.lastIndexOf(";"));
+        }
+
+        return new String[]{id.toString(), name, surname, courses.toString()};
     }
 
     public UUID getId() {

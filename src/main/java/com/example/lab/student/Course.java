@@ -22,6 +22,16 @@ public class Course {
         schedule.put("friday", false);
     }
 
+    public Course(String title, String schedule) {
+        this(title);
+
+        if (schedule.isEmpty()) return;
+
+        for (String key : schedule.split("\\.")) {
+            this.schedule.replace(key, true);
+        }
+    }
+
     public UUID getId() {
         return id;
     }
