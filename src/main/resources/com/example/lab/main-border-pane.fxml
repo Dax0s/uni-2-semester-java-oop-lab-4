@@ -5,15 +5,15 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lab.controllers.MainBorderPaneController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Navigation">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#onStudentsButtonClick" text="Students" />
+                  <MenuItem mnemonicParsing="false" onAction="#onFileManagerButtonClick" text="File manager" />
                   <MenuItem mnemonicParsing="false" onAction="#onCoursesButtonClick" text="Courses" />
+              <MenuItem mnemonicParsing="false" onAction="#onStudentsButtonClick" text="Students" />
             </items>
           </Menu>
         </menus>

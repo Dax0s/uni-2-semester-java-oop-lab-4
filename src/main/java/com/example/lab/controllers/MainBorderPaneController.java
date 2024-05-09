@@ -9,11 +9,17 @@ public class MainBorderPaneController {
 
     @FXML
     protected void onStudentsButtonClick() {
+        singleton.getStudentsViewController().updateTable();
         singleton.getMainBorderPane().setCenter(singleton.getStudentsAnchorPane());
     }
     @FXML
     protected void onCoursesButtonClick() {
         singleton.getCoursesViewController().updateStudentChoiceBox();
         singleton.getMainBorderPane().setCenter(singleton.getCoursesAnchorPane());
+    }
+
+    @FXML
+    protected void onFileManagerButtonClick() {
+        singleton.getMainBorderPane().setCenter(singleton.getFileViewAnchorPane());
     }
 }

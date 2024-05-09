@@ -1,6 +1,7 @@
 package com.example.lab.controllers;
 
 import com.example.lab.Singleton;
+import com.example.lab.student.FileUtils;
 import com.example.lab.student.Student;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
+import java.io.IOException;
 import java.util.List;
 
 public class StudentsViewController {
@@ -56,11 +58,13 @@ public class StudentsViewController {
 
         studentTableView.getColumns().add(nameColumn);
         studentTableView.getColumns().add(surnameColumn);
+    }
 
+    public void updateTable() {
+        studentTableView.getItems().clear();
         for (Student student : students) {
             studentTableView.getItems().add(student);
         }
-
     }
 
     @FXML
@@ -81,10 +85,12 @@ public class StudentsViewController {
 
     @FXML
     protected void onSaveButtonClick() {
-        System.out.println("----------------");
-        for (Student student : students) {
-            System.out.println("Name: " + student.getName() + " Surname: " + student.getSurname());
+        try {
+            FileUtils fileUtils = new FileUtils();
+            System.out.println(students.get(0).toString());
+            fileUtils.saveStudentsToFile(students, singleton.getCsvFilename());
+        } catch (IOException e) {
+            System.out.println(e);
         }
-        System.out.println("----------------");
     }
 }

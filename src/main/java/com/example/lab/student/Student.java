@@ -10,11 +10,15 @@ public class Student {
     private String surname;
     private final List<Course> courses;
 
-    public Student(String name, String surname) {
-        this.id = UUID.randomUUID();
+    public Student(UUID id, String name, String surname) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.courses = new ArrayList<>();
+    }
+
+    public Student(String name, String surname) {
+        this(UUID.randomUUID(), name, surname);
     }
 
     public void addCourse(Course course) {
@@ -28,6 +32,10 @@ public class Student {
     @Override
     public String toString() {
         return name + " " + surname;
+    }
+
+    public String[] toCsvStringArray() {
+        return new String[]{id.toString(), name, surname};
     }
 
     public UUID getId() {

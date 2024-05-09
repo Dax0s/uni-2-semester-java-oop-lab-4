@@ -38,6 +38,7 @@ dependencies {
   implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
     exclude(group: 'org.openjfx')
   }
+  implementation("com.opencsv:opencsv:3.7")
 
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

@@ -1,10 +1,9 @@
 package com.example.lab;
 
 import com.example.lab.controllers.CoursesViewController;
-import com.example.lab.controllers.MainBorderPaneController;
+import com.example.lab.controllers.StudentsViewController;
 import com.example.lab.student.Course;
 import com.example.lab.student.Student;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -21,10 +20,14 @@ public class Singleton {
     private BorderPane mainBorderPane;
     private AnchorPane studentsAnchorPane;
     private AnchorPane coursesAnchorPane;
+    private AnchorPane fileViewAnchorPane;
 
     private CoursesViewController coursesViewController;
+    private StudentsViewController studentsViewController;
 
     private CurrentTab currentTab = CurrentTab.STUDENTS;
+
+    private String csvFilename;
 
     public enum CurrentTab {
         STUDENTS,
@@ -87,5 +90,29 @@ public class Singleton {
 
     public void setCoursesViewController(CoursesViewController coursesViewController) {
         this.coursesViewController = coursesViewController;
+    }
+
+    public AnchorPane getFileViewAnchorPane() {
+        return fileViewAnchorPane;
+    }
+
+    public void setFileViewAnchorPane(AnchorPane fileViewAnchorPane) {
+        this.fileViewAnchorPane = fileViewAnchorPane;
+    }
+
+    public String getCsvFilename() {
+        return csvFilename;
+    }
+
+    public void setCsvFilename(String csvFilename) {
+        this.csvFilename = csvFilename;
+    }
+
+    public StudentsViewController getStudentsViewController() {
+        return studentsViewController;
+    }
+
+    public void setStudentsViewController(StudentsViewController studentsViewController) {
+        this.studentsViewController = studentsViewController;
     }
 }
