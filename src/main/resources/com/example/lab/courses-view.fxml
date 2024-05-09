@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="572.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lab.controllers.CoursesViewController">
@@ -25,5 +26,12 @@
       <Label layoutX="690.0" layoutY="183.0" text="Course:" />
       <Button layoutX="690.0" layoutY="247.0" mnemonicParsing="false" onAction="#onRemoveFromCourseClick" text="Remove from course" />
       <Label layoutX="873.0" layoutY="183.0" text="Student:" />
+      <Label layoutX="24.0" layoutY="416.0" text="Schedule:" />
+      <ChoiceBox fx:id="scheduleCourseChoiceBox" layoutX="24.0" layoutY="449.0" prefWidth="150.0" />
+      <ToggleButton fx:id="monday" layoutX="195.0" layoutY="449.0" mnemonicParsing="false" onAction="#onScheduleButtonClick" text="M" />
+      <ToggleButton fx:id="tuesday" layoutX="225.0" layoutY="449.0" mnemonicParsing="false" onAction="#onScheduleButtonClick" text="T" />
+      <ToggleButton fx:id="wednesday" layoutX="251.0" layoutY="449.0" mnemonicParsing="false" onAction="#onScheduleButtonClick" text="W" />
+      <ToggleButton fx:id="thursday" layoutX="282.0" layoutY="449.0" mnemonicParsing="false" onAction="#onScheduleButtonClick" text="T" />
+      <ToggleButton fx:id="friday" layoutX="308.0" layoutY="449.0" mnemonicParsing="false" onAction="#onScheduleButtonClick" text="F" />
    </children>
 </AnchorPane>

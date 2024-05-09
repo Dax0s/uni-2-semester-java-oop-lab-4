@@ -6,15 +6,12 @@ import com.example.lab.student.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoursesViewController {
@@ -33,6 +30,21 @@ public class CoursesViewController {
     private ChoiceBox<Course> removeCourseChoiceBox;
     @FXML
     private ChoiceBox<Student> removeStudentChoiceBox;
+
+    @FXML
+    private ChoiceBox<Course> scheduleCourseChoiceBox;
+    @FXML
+    private ToggleButton monday;
+    @FXML
+    private ToggleButton tuesday;
+    @FXML
+    private ToggleButton wednesday;
+    @FXML
+    private ToggleButton thursday;
+    @FXML
+    private ToggleButton friday;
+
+    private List<ToggleButton> scheduleButtons;
 
     private ObservableList<Course> courseChoicesList;
     private ObservableList<Student> studentChoicesList;
@@ -98,6 +110,30 @@ public class CoursesViewController {
             removeStudentChoiceBox.setItems(FXCollections.observableArrayList(removeCourseChoiceBox.getValue().getStudents()));
         });
 
+        scheduleButtons = new ArrayList<>();
+        scheduleButtons.add(monday);
+        scheduleButtons.add(tuesday);
+        scheduleButtons.add(wednesday);
+        scheduleButtons.add(thursday);
+        scheduleButtons.add(friday);
+
+        disableScheduleButtons();
+
+        scheduleCourseChoiceBox.setItems(courseChoicesList);
+        scheduleCourseChoiceBox.setConverter(courseStringConverter);
+
+        scheduleCourseChoiceBox.setOnAction(actionEvent -> {
+            if (scheduleCourseChoiceBox.getValue() == null) return;
+
+            enableScheduleButtons();
+
+            monday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("monday"));
+            tuesday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("tuesday"));
+            wednesday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("wednesday"));
+            thursday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("thursday"));
+            friday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("friday"));
+        });
+
         TableColumn<Course, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
@@ -126,6 +162,7 @@ public class CoursesViewController {
         courseChoicesList = FXCollections.observableArrayList(courses);
         courseChoiceBox.setItems(courseChoicesList);
         removeCourseChoiceBox.setItems(courseChoicesList);
+        scheduleCourseChoiceBox.setItems(courseChoicesList);
     }
 
     @FXML
@@ -168,6 +205,27 @@ public class CoursesViewController {
             studentChoicesList = FXCollections.observableArrayList(students);
             studentChoicesList.removeAll(courseChoiceBox.getValue().getStudents());
             studentChoiceBox.setItems(FXCollections.observableArrayList(studentChoicesList));
+        }
+    }
+
+    @FXML
+    protected void onScheduleButtonClick(ActionEvent event) {
+        if (scheduleCourseChoiceBox.getValue() == null) return;
+
+        ToggleButton button = ((ToggleButton) event.getTarget());
+
+        scheduleCourseChoiceBox.getValue().getSchedule().replace(button.getId(), button.isSelected());
+    }
+
+    private void disableScheduleButtons() {
+        for (ToggleButton button: scheduleButtons) {
+            button.setDisable(true);
+        }
+    }
+
+    private void enableScheduleButtons() {
+        for (ToggleButton button: scheduleButtons) {
+            button.setDisable(false);
         }
     }
 }

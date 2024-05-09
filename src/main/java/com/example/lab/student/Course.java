@@ -1,18 +1,25 @@
 package com.example.lab.student;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Course {
     private final UUID id;
     private String title;
     private final List<Student> students;
 
+    private final Map<String, Boolean> schedule;
+
     public Course(String title) {
         this.id = UUID.randomUUID();
         this.title = title;
         students = new ArrayList<>();
+
+        schedule = new HashMap<>();
+        schedule.put("monday", false);
+        schedule.put("tuesday", false);
+        schedule.put("wednesday", false);
+        schedule.put("thursday", false);
+        schedule.put("friday", false);
     }
 
     public UUID getId() {
@@ -45,5 +52,9 @@ public class Course {
 
     public int getStudentCount() {
         return students.size();
+    }
+
+    public Map<String, Boolean> getSchedule() {
+        return schedule;
     }
 }

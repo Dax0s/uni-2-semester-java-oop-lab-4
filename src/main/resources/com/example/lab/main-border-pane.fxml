@@ -14,6 +14,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#onFileManagerButtonClick" text="File manager" />
                   <MenuItem mnemonicParsing="false" onAction="#onCoursesButtonClick" text="Courses" />
               <MenuItem mnemonicParsing="false" onAction="#onStudentsButtonClick" text="Students" />
+                  <MenuItem mnemonicParsing="false" text="Attendance" />
             </items>
           </Menu>
         </menus>
