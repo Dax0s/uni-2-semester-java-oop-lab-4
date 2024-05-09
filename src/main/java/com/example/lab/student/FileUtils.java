@@ -23,7 +23,7 @@ public class FileUtils {
         CSVWriter writer = new CSVWriter(new FileWriter(filename));
 
         List<String[]> data = new ArrayList<>();
-        data.add(new String[]{"id", "name", "surname"});
+        data.add(new String[]{"id", "name", "surname", "courses"});
 
         for (Student student : students) {
             data.add(student.toCsvStringArray());

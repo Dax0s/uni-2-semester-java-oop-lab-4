@@ -3,8 +3,8 @@ package com.example.lab.controllers;
 import com.example.lab.Singleton;
 import com.example.lab.student.FileUtils;
 import com.example.lab.student.Student;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -22,6 +22,9 @@ public class StudentsViewController {
 
     @FXML
     private TableView<Student> studentTableView = new TableView<>();
+
+    @FXML
+    private Button saveButton;
 
     private final Singleton singleton = Singleton.getInstance();
     private List<Student> students;
@@ -60,11 +63,13 @@ public class StudentsViewController {
         studentTableView.getColumns().add(surnameColumn);
     }
 
-    public void updateTable() {
+    public void updateStudents() {
         studentTableView.getItems().clear();
         for (Student student : students) {
             studentTableView.getItems().add(student);
         }
+
+        saveButton.setDisable(singleton.getCsvFilename() == null);
     }
 
     @FXML
@@ -87,7 +92,6 @@ public class StudentsViewController {
     protected void onSaveButtonClick() {
         try {
             FileUtils fileUtils = new FileUtils();
-            System.out.println(students.get(0).toString());
             fileUtils.saveStudentsToFile(students, singleton.getCsvFilename());
         } catch (IOException e) {
             System.out.println(e);

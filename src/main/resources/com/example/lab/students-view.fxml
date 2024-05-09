@@ -15,6 +15,6 @@
     <Button layoutX="14.0" layoutY="124.0" mnemonicParsing="false" onAction="#onAddStudentButtonClick" text="Add Student" />
     <TableView fx:id="studentTableView" layoutX="223.0" layoutY="14.0" prefHeight="356.0" prefWidth="366.0" />
       <ToggleButton layoutX="223.0" layoutY="393.0" mnemonicParsing="false" onAction="#onEditingModeButtonClick" text="Editing mode" />
-      <Button layoutX="539.0" layoutY="393.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
+      <Button fx:id="saveButton" layoutX="539.0" layoutY="393.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
  </children>
 </AnchorPane>

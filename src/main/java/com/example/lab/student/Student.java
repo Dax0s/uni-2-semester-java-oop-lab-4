@@ -1,5 +1,7 @@
 package com.example.lab.student;
 
+import com.dlsc.formsfx.model.structure.Group;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +36,20 @@ public class Student {
         return name + " " + surname;
     }
 
+    private String coursesToString() {
+        if (courses == null || courses.isEmpty()) return "";
+        StringBuilder courses = new StringBuilder();
+
+        for (Course course : this.courses) {
+            courses.append(course.getTitle()).append(";");
+        }
+        courses.deleteCharAt(courses.lastIndexOf(";"));
+
+        return courses.toString();
+    }
+
     public String[] toCsvStringArray() {
-        return new String[]{id.toString(), name, surname};
+        return new String[]{id.toString(), name, surname, coursesToString()};
     }
 
     public UUID getId() {
