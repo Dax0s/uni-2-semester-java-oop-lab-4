@@ -52,6 +52,10 @@ public class Student {
         return new String[]{id.toString(), name, surname, coursesToString()};
     }
 
+    public String getCoursesString() {
+        return coursesToString().replace(";", ", ");
+    }
+
     public UUID getId() {
         return id;
     }

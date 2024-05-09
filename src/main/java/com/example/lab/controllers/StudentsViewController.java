@@ -40,6 +40,9 @@ public class StudentsViewController {
         TableColumn<Student, String> surnameColumn = new TableColumn<>("Surname");
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
 
+        TableColumn<Student, String> coursesColumn = new TableColumn<>("Courses");
+        coursesColumn.setCellValueFactory(new PropertyValueFactory<>("coursesString"));
+
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         surnameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -58,9 +61,11 @@ public class StudentsViewController {
 
         nameColumn.setEditable(true);
         surnameColumn.setEditable(true);
+        coursesColumn.setEditable(false);
 
         studentTableView.getColumns().add(nameColumn);
         studentTableView.getColumns().add(surnameColumn);
+        studentTableView.getColumns().add(coursesColumn);
     }
 
     public void updateStudents() {
