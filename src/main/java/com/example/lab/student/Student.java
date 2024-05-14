@@ -1,15 +1,13 @@
 package com.example.lab.student;
 
-import com.dlsc.formsfx.model.structure.Group;
-
 import java.time.LocalDate;
 import java.util.*;
 
-public class Student {
+public class Student implements ExportableToCsv {
     private final UUID id;
     private String name;
     private String surname;
-    private final List<Course> courses;
+    private final List<OnlineCourse> courses;
     private final Map<String, List<LocalDate>> attendance;
 
     public Student(UUID id, String name, String surname, String attendance) {
@@ -45,12 +43,12 @@ public class Student {
         this(UUID.randomUUID(), name, surname);
     }
 
-    public void addCourse(Course course) {
-        this.courses.add(course);
+    public void addCourse(OnlineCourse onlineCourse) {
+        this.courses.add(onlineCourse);
     }
 
-    public void removeCourse(Course course) {
-        this.courses.remove(course);
+    public void removeCourse(OnlineCourse onlineCourse) {
+        this.courses.remove(onlineCourse);
     }
 
     @Override
@@ -62,27 +60,28 @@ public class Student {
         if (courses == null || courses.isEmpty()) return "";
         StringBuilder courses = new StringBuilder();
 
-        for (Course course : this.courses) {
-            courses.append(course.getTitle()).append(", ");
+        for (OnlineCourse onlineCourse : this.courses) {
+            courses.append(onlineCourse.getTitle()).append(", ");
         }
         courses.deleteCharAt(courses.lastIndexOf(","));
 
         return courses.toString();
     }
 
+    @Override
     public String[] toCsvStringArray() {
         StringBuilder courses = new StringBuilder();
         if (!this.courses.isEmpty()) {
-            for (Course course : this.courses) {
-                courses.append(course.getTitle());
-                if (!course.getSchedule().isEmpty())
+            for (OnlineCourse onlineCourse : this.courses) {
+                courses.append(onlineCourse.getTitle());
+                if (!onlineCourse.getSchedule().isEmpty())
                     courses.append(":");
 
-                for (String key : course.getSchedule()) {
+                for (String key : onlineCourse.getSchedule()) {
                     courses.append(key).append(".");
                 }
 
-                if (!course.getSchedule().isEmpty())
+                if (!onlineCourse.getSchedule().isEmpty())
                     courses.deleteCharAt(courses.lastIndexOf("."));
 
                 courses.append(";");
@@ -135,7 +134,7 @@ public class Student {
         return surname;
     }
 
-    public List<Course> getCourses() {
+    public List<OnlineCourse> getCourses() {
         return courses;
     }
 

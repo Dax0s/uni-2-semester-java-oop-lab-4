@@ -1,7 +1,7 @@
 package com.example.lab.controllers;
 
 import com.example.lab.Singleton;
-import com.example.lab.student.Course;
+import com.example.lab.student.OnlineCourse;
 import com.example.lab.student.CourseStringConverter;
 import com.example.lab.student.Student;
 import com.example.lab.student.StudentStringConverter;
@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +20,20 @@ public class CoursesViewController {
     private TextField courseName;
 
     @FXML
-    private TableView<Course> courseTableView = new TableView<>();
+    private TableView<OnlineCourse> courseTableView = new TableView<>();
 
     @FXML
-    private ChoiceBox<Course> courseChoiceBox;
+    private ChoiceBox<OnlineCourse> courseChoiceBox;
     @FXML
     private ChoiceBox<Student> studentChoiceBox;
 
     @FXML
-    private ChoiceBox<Course> removeCourseChoiceBox;
+    private ChoiceBox<OnlineCourse> removeCourseChoiceBox;
     @FXML
     private ChoiceBox<Student> removeStudentChoiceBox;
 
     @FXML
-    private ChoiceBox<Course> scheduleCourseChoiceBox;
+    private ChoiceBox<OnlineCourse> scheduleCourseChoiceBox;
     @FXML
     private ToggleButton monday;
     @FXML
@@ -48,12 +47,11 @@ public class CoursesViewController {
 
     private List<ToggleButton> scheduleButtons;
 
-    private ObservableList<Course> courseChoicesList;
+    private ObservableList<OnlineCourse> onlineCourseChoicesList;
     private ObservableList<Student> studentChoicesList;
-    private ObservableList<Student> removeStudentChoicesList;
 
     private final Singleton singleton = Singleton.getInstance();
-    private List<Course> courses;
+    private List<OnlineCourse> courses;
     private List<Student> students;
 
     @FXML
@@ -61,8 +59,8 @@ public class CoursesViewController {
         courses = singleton.getCourses();
         students = singleton.getStudents();
 
-        courseChoicesList = FXCollections.observableArrayList(courses);
-        courseChoiceBox.setItems(courseChoicesList);
+        onlineCourseChoicesList = FXCollections.observableArrayList(courses);
+        courseChoiceBox.setItems(onlineCourseChoicesList);
         courseChoiceBox.setConverter(new CourseStringConverter());
 
         courseChoiceBox.setOnAction(actionEvent -> {
@@ -77,7 +75,7 @@ public class CoursesViewController {
         studentChoiceBox.setItems(studentChoicesList);
         studentChoiceBox.setConverter(new StudentStringConverter());
 
-        removeCourseChoiceBox.setItems(courseChoicesList);
+        removeCourseChoiceBox.setItems(onlineCourseChoicesList);
         removeCourseChoiceBox.setConverter(new CourseStringConverter());
 
         removeCourseChoiceBox.setOnAction(actionEvent -> {
@@ -95,7 +93,7 @@ public class CoursesViewController {
 
         disableScheduleButtons();
 
-        scheduleCourseChoiceBox.setItems(courseChoicesList);
+        scheduleCourseChoiceBox.setItems(onlineCourseChoicesList);
         scheduleCourseChoiceBox.setConverter(new CourseStringConverter());
 
         scheduleCourseChoiceBox.setOnAction(actionEvent -> {
@@ -110,17 +108,17 @@ public class CoursesViewController {
             friday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().contains("friday"));
         });
 
-        TableColumn<Course, String> titleColumn = new TableColumn<>("Title");
+        TableColumn<OnlineCourse, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
-        TableColumn<Course, String> amountOfStudentsColumn = new TableColumn<>("Students");
+        TableColumn<OnlineCourse, String> amountOfStudentsColumn = new TableColumn<>("Students");
         amountOfStudentsColumn.setCellValueFactory(new PropertyValueFactory<>("studentCount"));
 
         courseTableView.getColumns().add(titleColumn);
         courseTableView.getColumns().add(amountOfStudentsColumn);
 
-        for (Course course : courses) {
-            courseTableView.getItems().add(course);
+        for (OnlineCourse onlineCourse : courses) {
+            courseTableView.getItems().add(onlineCourse);
         }
     }
 
@@ -133,27 +131,27 @@ public class CoursesViewController {
 
     public CoursesViewController updateCourses() {
         courseTableView.getItems().clear();
-        for (Course course : courses) {
-            courseTableView.getItems().add(course);
+        for (OnlineCourse onlineCourse : courses) {
+            courseTableView.getItems().add(onlineCourse);
         }
 
-        courseChoicesList = FXCollections.observableArrayList(courses);
-        courseChoiceBox.setItems(courseChoicesList);
-        removeCourseChoiceBox.setItems(courseChoicesList);
-        scheduleCourseChoiceBox.setItems(courseChoicesList);
+        onlineCourseChoicesList = FXCollections.observableArrayList(courses);
+        courseChoiceBox.setItems(onlineCourseChoicesList);
+        removeCourseChoiceBox.setItems(onlineCourseChoicesList);
+        scheduleCourseChoiceBox.setItems(onlineCourseChoicesList);
 
         return this;
     }
 
     @FXML
     protected void onCreateCourseButtonClick() {
-        Course course = new Course(courseName.getText());
+        OnlineCourse onlineCourse = new OnlineCourse(courseName.getText());
 
         courseName.setText("");
 
-        courseTableView.getItems().add(course);
-        courses.add(course);
-        courseChoicesList.add(course);
+        courseTableView.getItems().add(onlineCourse);
+        courses.add(onlineCourse);
+        onlineCourseChoicesList.add(onlineCourse);
     }
 
     @FXML

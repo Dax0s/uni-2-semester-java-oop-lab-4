@@ -3,7 +3,7 @@ package com.example.lab;
 import com.example.lab.controllers.AttendanceViewController;
 import com.example.lab.controllers.CoursesViewController;
 import com.example.lab.controllers.StudentsViewController;
-import com.example.lab.student.Course;
+import com.example.lab.student.OnlineCourse;
 import com.example.lab.student.Student;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -16,7 +16,7 @@ public class Singleton {
     private static Optional<Singleton> instance = Optional.empty();
 
     private final List<Student> students = new ArrayList<>();
-    private final List<Course> courses = new ArrayList<>();
+    private final List<OnlineCourse> courses = new ArrayList<>();
 
     private BorderPane mainBorderPane;
     private AnchorPane studentsAnchorPane;
@@ -48,7 +48,7 @@ public class Singleton {
         return instance.get();
     }
 
-    public List<Course> getCourses() {
+    public List<OnlineCourse> getCourses() {
         return courses;
     }
 

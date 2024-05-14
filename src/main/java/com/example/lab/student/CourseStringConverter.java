@@ -2,15 +2,15 @@ package com.example.lab.student;
 
 import javafx.util.StringConverter;
 
-public class CourseStringConverter extends StringConverter<Course> {
+public class CourseStringConverter extends StringConverter<OnlineCourse> {
     @Override
-    public String toString(Course course) {
-        if (course == null) return "";
-        return course.getTitle();
+    public String toString(OnlineCourse onlineCourse) {
+        if (onlineCourse == null) return "";
+        return onlineCourse.getTitle();
     }
 
     @Override
-    public Course fromString(String s) {
+    public OnlineCourse fromString(String s) {
         return null;
     }
 }

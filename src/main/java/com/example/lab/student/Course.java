@@ -1,68 +1,22 @@
 package com.example.lab.student;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class Course {
-    private final UUID id;
-    private String title;
-    private final List<Student> students;
+public abstract class Course {
+    protected final UUID id;
+    protected String title;
+    protected final List<Student> students;
 
-    private final Set<String> schedule;
-
-    public Course(String title) {
-        this.id = UUID.randomUUID();
+    protected Course(UUID id, String title) {
+        this.id = id;
         this.title = title;
-        students = new ArrayList<>();
-
-        schedule = new HashSet<>();
-//        schedule.add("monday");
-//        schedule.add("tuesday");
-//        schedule.add("wednesday");
-//        schedule.add("thursday");
-//        schedule.add("friday");
+        this.students = new ArrayList<>();
     }
 
-    public Course(String title, String schedule) {
-        this(title);
 
-        if (schedule.isEmpty()) return;
+    public abstract void addStudent(Student student);
 
-        this.schedule.addAll(Arrays.asList(schedule.split("\\.")));
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void addStudent(Student student) {
-        if (students.contains(student)) return;
-
-        students.add(student);
-        student.addCourse(this);
-    }
-
-    public void removeStudent(Student student) {
-        students.remove(student);
-        student.removeCourse(this);
-    }
-
-    public List<Student> getStudents() {
-        return this.students;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public int getStudentCount() {
-        return students.size();
-    }
-
-    public Set<String> getSchedule() {
-        return schedule;
-    }
+    public abstract void removeStudent(Student student);
 }

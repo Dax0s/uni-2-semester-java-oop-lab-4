@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Stream;
 
 public class FileUtils {
@@ -61,8 +60,8 @@ public class FileUtils {
         List<String[]> data = new ArrayList<>();
         data.add(new String[]{"id", "name", "surname", "courses", "attendance"});
 
-        for (Student student : students) {
-            data.add(student.toCsvStringArray());
+        for (ExportableToCsv element : students) {
+            data.add(element.toCsvStringArray());
         }
 
         writer.writeAll(data);

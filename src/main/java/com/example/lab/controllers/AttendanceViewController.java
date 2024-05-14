@@ -17,7 +17,7 @@ import java.util.List;
 
 public class AttendanceViewController {
     @FXML
-    ChoiceBox<Course> courseChoiceBox;
+    ChoiceBox<OnlineCourse> courseChoiceBox;
     @FXML
     ChoiceBox<Student> studentChoiceBox;
 
@@ -34,10 +34,10 @@ public class AttendanceViewController {
 
     private final Singleton singleton = Singleton.getInstance();
 
-    private List<Course> courses;
+    private List<OnlineCourse> cours;
     private List<Student> students;
 
-    private ObservableList<Course> courseChoicesList;
+    private ObservableList<OnlineCourse> onlineCourseChoicesList;
     private ObservableList<Student> studentChoicesList;
 
     private final DateCell emptyDateCell = new DateCell() {
@@ -52,11 +52,11 @@ public class AttendanceViewController {
 
     @FXML
     private void initialize() {
-        courses = singleton.getCourses();
+        cours = singleton.getCourses();
         students = singleton.getStudents();
 
-        courseChoicesList = FXCollections.observableArrayList(courses);
-        courseChoiceBox.setItems(courseChoicesList);
+        onlineCourseChoicesList = FXCollections.observableArrayList(cours);
+        courseChoiceBox.setItems(onlineCourseChoicesList);
         courseChoiceBox.setConverter(new CourseStringConverter());
 
         studentChoiceBox.setDisable(false);
@@ -94,8 +94,8 @@ public class AttendanceViewController {
     }
 
     public AttendanceViewController updateCourseChoiceBox() {
-        courseChoicesList = FXCollections.observableArrayList(courses.stream().filter(course -> !course.getSchedule().isEmpty()).toList());
-        courseChoiceBox.setItems(courseChoicesList);
+        onlineCourseChoicesList = FXCollections.observableArrayList(cours.stream().filter(course -> !course.getSchedule().isEmpty()).toList());
+        courseChoiceBox.setItems(onlineCourseChoicesList);
 
         return this;
     }

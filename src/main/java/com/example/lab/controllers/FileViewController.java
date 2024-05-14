@@ -1,16 +1,14 @@
 package com.example.lab.controllers;
 
 import com.example.lab.Singleton;
-import com.example.lab.student.Course;
+import com.example.lab.student.OnlineCourse;
 import com.example.lab.student.Student;
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -41,8 +39,8 @@ public class FileViewController {
                 return;
             }
 
-            List<Course> courses = Singleton.getInstance().getCourses();
-            courses.clear();
+            List<OnlineCourse> cours = Singleton.getInstance().getCourses();
+            cours.clear();
 
             for (int i = 1; i < data.size(); i++) {
                 String[] coursesString = data.get(i)[3].split(";");
@@ -56,8 +54,8 @@ public class FileViewController {
                     if (courseInfo.split(":").length == 2)
                         courseSchedule = courseInfo.split(":")[1];
 
-                    if (courses.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle)).findFirst().isEmpty())
-                        courses.add(new Course(courseTitle, courseSchedule));
+                    if (cours.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle)).findFirst().isEmpty())
+                        cours.add(new OnlineCourse(courseTitle, courseSchedule));
                 }
             }
 
@@ -73,7 +71,7 @@ public class FileViewController {
                 String[] coursesString = data.get(i)[3].split(";");
 
                 for (String courseTitle : coursesString) {
-                    Optional<Course> currentCourse = courses.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle.split(":")[0])).findFirst();
+                    Optional<OnlineCourse> currentCourse = cours.stream().filter(course -> Objects.equals(course.getTitle(), courseTitle.split(":")[0])).findFirst();
                     currentCourse.ifPresent(course -> course.addStudent(student));
                 }
             }
