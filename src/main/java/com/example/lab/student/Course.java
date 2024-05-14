@@ -7,19 +7,19 @@ public class Course {
     private String title;
     private final List<Student> students;
 
-    private final Map<String, Boolean> schedule;
+    private final Set<String> schedule;
 
     public Course(String title) {
         this.id = UUID.randomUUID();
         this.title = title;
         students = new ArrayList<>();
 
-        schedule = new HashMap<>();
-        schedule.put("monday", false);
-        schedule.put("tuesday", false);
-        schedule.put("wednesday", false);
-        schedule.put("thursday", false);
-        schedule.put("friday", false);
+        schedule = new HashSet<>();
+//        schedule.add("monday");
+//        schedule.add("tuesday");
+//        schedule.add("wednesday");
+//        schedule.add("thursday");
+//        schedule.add("friday");
     }
 
     public Course(String title, String schedule) {
@@ -27,9 +27,7 @@ public class Course {
 
         if (schedule.isEmpty()) return;
 
-        for (String key : schedule.split("\\.")) {
-            this.schedule.replace(key, true);
-        }
+        this.schedule.addAll(Arrays.asList(schedule.split("\\.")));
     }
 
     public UUID getId() {
@@ -64,7 +62,7 @@ public class Course {
         return students.size();
     }
 
-    public Map<String, Boolean> getSchedule() {
+    public Set<String> getSchedule() {
         return schedule;
     }
 }

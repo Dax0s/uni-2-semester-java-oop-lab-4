@@ -1,5 +1,6 @@
 package com.example.lab;
 
+import com.example.lab.controllers.AttendanceViewController;
 import com.example.lab.controllers.CoursesViewController;
 import com.example.lab.controllers.StudentsViewController;
 import com.example.lab.student.Course;
@@ -22,8 +23,11 @@ public class Singleton {
     private AnchorPane coursesAnchorPane;
     private AnchorPane fileViewAnchorPane;
 
+    private AnchorPane attendanceAnchorPane;
+
     private CoursesViewController coursesViewController;
     private StudentsViewController studentsViewController;
+    private AttendanceViewController attendanceViewController;
 
     private CurrentTab currentTab = CurrentTab.STUDENTS;
 
@@ -114,5 +118,21 @@ public class Singleton {
 
     public void setStudentsViewController(StudentsViewController studentsViewController) {
         this.studentsViewController = studentsViewController;
+    }
+
+    public AnchorPane getAttendanceAnchorPane() {
+        return attendanceAnchorPane;
+    }
+
+    public void setAttendanceAnchorPane(AnchorPane attendanceAnchorPane) {
+        this.attendanceAnchorPane = attendanceAnchorPane;
+    }
+
+    public AttendanceViewController getAttendanceViewController() {
+        return attendanceViewController;
+    }
+
+    public void setAttendanceViewController(AttendanceViewController attendanceViewController) {
+        this.attendanceViewController = attendanceViewController;
     }
 }

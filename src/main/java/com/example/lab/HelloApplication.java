@@ -8,10 +8,23 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.util.Locale;
 
 public class HelloApplication extends Application {
+    public static Locale adjustWeekStart(Locale locale, DayOfWeek day) {
+        String dayString = day.toString().substring(0, 3);
+
+        return new Locale.Builder()
+                .setLocale(locale)
+                .setExtension(Locale.UNICODE_LOCALE_EXTENSION, "fw-" + dayString)
+                .build();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
+        Locale.setDefault(adjustWeekStart(Locale.getDefault(), DayOfWeek.MONDAY));
+
         FXMLLoader borderPaneLoader = new FXMLLoader(HelloApplication.class.getResource("main-border-pane.fxml"));
         BorderPane pane = borderPaneLoader.load();
 
@@ -24,13 +37,18 @@ public class HelloApplication extends Application {
         FXMLLoader fileViewAnchorPaneLoader = new FXMLLoader(HelloApplication.class.getResource("file-view.fxml"));
         AnchorPane fileViewAnchorPane = fileViewAnchorPaneLoader.load();
 
+        FXMLLoader attendanceAnchorPaneLoader = new FXMLLoader(HelloApplication.class.getResource("attendance-view.fxml"));
+        AnchorPane attendanceAnchorPane = attendanceAnchorPaneLoader.load();
+
         Singleton.getInstance().setMainBorderPane(pane);
         Singleton.getInstance().setStudentsAnchoPane(studentsAnchorPane);
         Singleton.getInstance().setCoursesAnchorPane(coursesAnchorPane);
         Singleton.getInstance().setFileViewAnchorPane(fileViewAnchorPane);
+        Singleton.getInstance().setAttendanceAnchorPane(attendanceAnchorPane);
 
         Singleton.getInstance().setCoursesViewController(coursesAnchorPaneLoader.getController());
         Singleton.getInstance().setStudentsViewController(studentAnchorPaneLoader.getController());
+        Singleton.getInstance().setAttendanceViewController(attendanceAnchorPaneLoader.getController());
 
         pane.setCenter(fileViewAnchorPane);
 

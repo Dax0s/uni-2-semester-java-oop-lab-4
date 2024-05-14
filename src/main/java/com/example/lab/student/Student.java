@@ -2,21 +2,43 @@ package com.example.lab.student;
 
 import com.dlsc.formsfx.model.structure.Group;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Student {
     private final UUID id;
     private String name;
     private String surname;
     private final List<Course> courses;
+    private final Map<String, List<LocalDate>> attendance;
+
+    public Student(UUID id, String name, String surname, String attendance) {
+        this(id, name, surname);
+        addAttendanceData(attendance);
+    }
+
+    // MPS:data.data;Filosofija:data
+    private void addAttendanceData(String attendance) {
+        for (String course : attendance.split(";")) {
+            if (attendance.isBlank()) continue;
+            String title = course.split(":")[0];
+            String[] dates = course.split(":")[1].split("\\.");
+
+            if (!this.attendance.containsKey(title)) this.attendance.put(title, new ArrayList<>());
+
+            for (String date : dates) {
+                if (!date.isBlank())
+                    this.attendance.get(title).add(LocalDate.parse(date));
+            }
+        }
+    }
 
     public Student(UUID id, String name, String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.courses = new ArrayList<>();
+        this.attendance = new HashMap<>();
     }
 
     public Student(String name, String surname) {
@@ -53,16 +75,14 @@ public class Student {
         if (!this.courses.isEmpty()) {
             for (Course course : this.courses) {
                 courses.append(course.getTitle());
-                if (course.getSchedule().containsValue(true))
+                if (!course.getSchedule().isEmpty())
                     courses.append(":");
 
-                for (String key : course.getSchedule().keySet()) {
-                    if (course.getSchedule().get(key)) {
-                        courses.append(key).append(".");
-                    }
+                for (String key : course.getSchedule()) {
+                    courses.append(key).append(".");
                 }
 
-                if (course.getSchedule().containsValue(true))
+                if (!course.getSchedule().isEmpty())
                     courses.deleteCharAt(courses.lastIndexOf("."));
 
                 courses.append(";");
@@ -70,7 +90,29 @@ public class Student {
             courses.deleteCharAt(courses.lastIndexOf(";"));
         }
 
-        return new String[]{id.toString(), name, surname, courses.toString()};
+        // MPS:data.data;Filosofija:data
+        StringBuilder attendance = new StringBuilder();
+        if (!this.attendance.isEmpty()) {
+            for (String key : this.attendance.keySet()) {
+                if (key.isBlank()) continue;
+                attendance.append(key);
+                if (!this.attendance.get(key).isEmpty())
+                    attendance.append(":");
+
+                for (LocalDate date : this.attendance.get(key)) {
+                        attendance.append(date).append(".");
+                }
+
+                if (!this.attendance.get(key).isEmpty())
+                    attendance.deleteCharAt(attendance.lastIndexOf("."));
+
+                attendance.append(";");
+            }
+            attendance.deleteCharAt(attendance.lastIndexOf(";"));
+        }
+
+
+        return new String[]{id.toString(), name, surname, courses.toString(), attendance.toString()};
     }
 
     public UUID getId() {
@@ -95,5 +137,9 @@ public class Student {
 
     public List<Course> getCourses() {
         return courses;
+    }
+
+    public Map<String, List<LocalDate>> getAttendance() {
+        return attendance;
     }
 }

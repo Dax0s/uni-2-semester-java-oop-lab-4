@@ -32,7 +32,11 @@ public class FileViewController {
             List<String[]> data = reader.readAll();
 
             String[] firstRow = data.get(0);
-            if (!Objects.equals(firstRow[0], "id") || !Objects.equals(firstRow[1], "name") || !Objects.equals(firstRow[2], "surname") || !Objects.equals(firstRow[3], "courses")) {
+            if (!Objects.equals(firstRow[0], "id")
+                    || !Objects.equals(firstRow[1], "name")
+                    || !Objects.equals(firstRow[2], "surname")
+                    || !Objects.equals(firstRow[3], "courses")
+                    || !Objects.equals(firstRow[4], "attendance")) {
                 System.out.println("Bad input file");
                 return;
             }
@@ -63,7 +67,7 @@ public class FileViewController {
 
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i);
-                Student student = new Student(UUID.fromString(row[0]), row[1], row[2]);
+                Student student = new Student(UUID.fromString(row[0]), row[1], row[2], row[4]);
                 students.add(student);
 
                 String[] coursesString = data.get(i)[3].split(";");

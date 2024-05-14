@@ -2,7 +2,9 @@ package com.example.lab.controllers;
 
 import com.example.lab.Singleton;
 import com.example.lab.student.Course;
+import com.example.lab.student.CourseStringConverter;
 import com.example.lab.student.Student;
+import com.example.lab.student.StudentStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,35 +61,9 @@ public class CoursesViewController {
         courses = singleton.getCourses();
         students = singleton.getStudents();
 
-        StringConverter<Course> courseStringConverter = new StringConverter<>() {
-            @Override
-            public String toString(Course course) {
-                if (course == null) return "";
-                return course.getTitle();
-            }
-
-            @Override
-            public Course fromString(String s) {
-                return null;
-            }
-        };
-
-        StringConverter<Student> studentStringConverter = new StringConverter<>() {
-            @Override
-            public String toString(Student student) {
-                if (student == null) return "";
-                return student.toString();
-            }
-
-            @Override
-            public Student fromString(String s) {
-                return null;
-            }
-        };
-
         courseChoicesList = FXCollections.observableArrayList(courses);
         courseChoiceBox.setItems(courseChoicesList);
-        courseChoiceBox.setConverter(courseStringConverter);
+        courseChoiceBox.setConverter(new CourseStringConverter());
 
         courseChoiceBox.setOnAction(actionEvent -> {
             if (courseChoiceBox.getValue() == null) return;
@@ -99,10 +75,10 @@ public class CoursesViewController {
 
         studentChoicesList = FXCollections.observableArrayList(students);
         studentChoiceBox.setItems(studentChoicesList);
-        studentChoiceBox.setConverter(studentStringConverter);
+        studentChoiceBox.setConverter(new StudentStringConverter());
 
         removeCourseChoiceBox.setItems(courseChoicesList);
-        removeCourseChoiceBox.setConverter(courseStringConverter);
+        removeCourseChoiceBox.setConverter(new CourseStringConverter());
 
         removeCourseChoiceBox.setOnAction(actionEvent -> {
             if (removeCourseChoiceBox.getValue() == null) return;
@@ -120,18 +96,18 @@ public class CoursesViewController {
         disableScheduleButtons();
 
         scheduleCourseChoiceBox.setItems(courseChoicesList);
-        scheduleCourseChoiceBox.setConverter(courseStringConverter);
+        scheduleCourseChoiceBox.setConverter(new CourseStringConverter());
 
         scheduleCourseChoiceBox.setOnAction(actionEvent -> {
             if (scheduleCourseChoiceBox.getValue() == null) return;
 
             enableScheduleButtons();
 
-            monday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("monday"));
-            tuesday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("tuesday"));
-            wednesday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("wednesday"));
-            thursday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("thursday"));
-            friday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().get("friday"));
+            monday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().contains("monday"));
+            tuesday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().contains("tuesday"));
+            wednesday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().contains("wednesday"));
+            thursday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().contains("thursday"));
+            friday.setSelected(scheduleCourseChoiceBox.getValue().getSchedule().contains("friday"));
         });
 
         TableColumn<Course, String> titleColumn = new TableColumn<>("Title");
@@ -148,12 +124,14 @@ public class CoursesViewController {
         }
     }
 
-    public void updateStudentChoiceBox() {
+    public CoursesViewController updateStudentChoiceBox() {
         studentChoicesList = FXCollections.observableArrayList(students);
         studentChoiceBox.setItems(studentChoicesList);
+
+        return this;
     }
 
-    public void updateCourses() {
+    public CoursesViewController updateCourses() {
         courseTableView.getItems().clear();
         for (Course course : courses) {
             courseTableView.getItems().add(course);
@@ -163,6 +141,8 @@ public class CoursesViewController {
         courseChoiceBox.setItems(courseChoicesList);
         removeCourseChoiceBox.setItems(courseChoicesList);
         scheduleCourseChoiceBox.setItems(courseChoicesList);
+
+        return this;
     }
 
     @FXML
@@ -214,13 +194,19 @@ public class CoursesViewController {
 
         ToggleButton button = ((ToggleButton) event.getTarget());
 
-        scheduleCourseChoiceBox.getValue().getSchedule().replace(button.getId(), button.isSelected());
+        if (button.isSelected()) {
+            scheduleCourseChoiceBox.getValue().getSchedule().add(button.getId());
+        } else {
+            scheduleCourseChoiceBox.getValue().getSchedule().remove(button.getId());
+        }
     }
 
-    public void resetScheduleButtons() {
+    public CoursesViewController resetScheduleButtons() {
         for (ToggleButton button: scheduleButtons) {
             button.setSelected(false);
         }
+
+        return this;
     }
 
     private void disableScheduleButtons() {

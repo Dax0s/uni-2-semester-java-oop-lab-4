@@ -13,14 +13,23 @@ public class MainBorderPaneController {
     }
     @FXML
     protected void onCoursesButtonClick() {
-        singleton.getCoursesViewController().updateStudentChoiceBox();
-        singleton.getCoursesViewController().updateCourses();
-        singleton.getCoursesViewController().resetScheduleButtons();
+        singleton.getCoursesViewController()
+                .updateStudentChoiceBox()
+                .updateCourses()
+                .resetScheduleButtons();
         singleton.getMainBorderPane().setCenter(singleton.getCoursesAnchorPane());
     }
 
     @FXML
     protected void onFileManagerButtonClick() {
         singleton.getMainBorderPane().setCenter(singleton.getFileViewAnchorPane());
+    }
+
+    @FXML
+    protected void onAttendanceButtonClick() {
+        singleton.getAttendanceViewController()
+                .updateCourseChoiceBox()
+                .updateStudentChoiceBox();
+        singleton.getMainBorderPane().setCenter(singleton.getAttendanceAnchorPane());
     }
 }
