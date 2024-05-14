@@ -4,25 +4,15 @@ import com.example.lab.Singleton;
 import com.example.lab.student.Course;
 import com.example.lab.student.CourseStringConverter;
 import com.example.lab.student.Student;
+import com.example.lab.student.StudentAttendanceDayDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.paint.Paint;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,6 +24,14 @@ public class AttendanceViewController {
 
     @FXML
     DatePicker datePicker;
+
+    @FXML
+    DatePicker datePickerFrom;
+    @FXML
+    DatePicker datePickerTo;
+
+    @FXML
+    TableView<StudentAttendanceDayDto> attendanceTableView;
 
     private final Singleton singleton = Singleton.getInstance();
 
@@ -94,19 +92,6 @@ public class AttendanceViewController {
                 }
             });
         });
-
-//        studentChoicesList = FXCollections.observableArrayList(students);
-//        studentChoiceBox.setItems(studentChoicesList);
-//        studentChoiceBox.setConverter(studentStringConverter);
-//
-//        removeCourseChoiceBox.setItems(courseChoicesList);
-//        removeCourseChoiceBox.setConverter(courseStringConverter);
-//
-//        removeCourseChoiceBox.setOnAction(actionEvent -> {
-//            if (removeCourseChoiceBox.getValue() == null) return;
-//
-//            removeStudentChoiceBox.setItems(FXCollections.observableArrayList(removeCourseChoiceBox.getValue().getStudents()));
-//        });
     }
 
     public AttendanceViewController updateCourseChoiceBox() {
@@ -143,5 +128,36 @@ public class AttendanceViewController {
             studentChoiceBox.getValue().getAttendance().get(courseChoiceBox.getValue().getTitle()).add(datePicker.getValue());
         else
             studentChoiceBox.getValue().getAttendance().put(courseChoiceBox.getValue().getTitle(), new ArrayList<>(Collections.singletonList(datePicker.getValue())));
+    }
+
+    @FXML
+    protected void onFilterButtonClick() {
+        if (datePickerFrom.getValue() == null || datePickerTo.getValue() == null || datePickerFrom.getValue().isAfter(datePickerTo.getValue())) return;
+
+        TableColumn<StudentAttendanceDayDto, String> fullNameColumn = new TableColumn<>("Full name");
+        fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+
+        TableColumn<StudentAttendanceDayDto, String> courseColumn = new TableColumn<>("Course");
+        courseColumn.setCellValueFactory(new PropertyValueFactory<>("course"));
+
+        TableColumn<StudentAttendanceDayDto, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
+
+        attendanceTableView.getColumns().clear();
+        attendanceTableView.getColumns().add(fullNameColumn);
+        attendanceTableView.getColumns().add(courseColumn);
+        attendanceTableView.getColumns().add(dateColumn);
+
+        attendanceTableView.getItems().clear();
+        for (Student student : students) {
+            for (String key : student.getAttendance().keySet()) {
+                for (LocalDate date : student.getAttendance().get(key)) {
+                    if ((date.isAfter(datePickerFrom.getValue()) || date.isEqual(datePickerFrom.getValue()))
+                            && (date.isBefore(datePickerTo.getValue()) || date.isEqual(datePickerTo.getValue()))) {
+                        attendanceTableView.getItems().add(new StudentAttendanceDayDto(student.getName(), student.getSurname(), key, date.toString()));
+                    }
+                }
+            }
+        }
     }
 }
