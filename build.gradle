@@ -39,6 +39,7 @@ dependencies {
     exclude(group: 'org.openjfx')
   }
   implementation("com.opencsv:opencsv:3.7")
+  implementation("com.itextpdf:itextpdf:5.5.13.3")
 
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

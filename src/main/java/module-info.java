@@ -5,6 +5,7 @@ module com.example.lab {
     requires com.dlsc.formsfx;
     requires opencsv;
     requires java.sql;
+    requires itextpdf;
 
     opens com.example.lab to javafx.fxml;
     exports com.example.lab;

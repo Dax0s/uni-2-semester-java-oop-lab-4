@@ -1,16 +1,15 @@
 package com.example.lab.controllers;
 
 import com.example.lab.Singleton;
-import com.example.lab.student.Course;
-import com.example.lab.student.CourseStringConverter;
-import com.example.lab.student.Student;
-import com.example.lab.student.StudentAttendanceDayDto;
+import com.example.lab.student.*;
+import com.itextpdf.text.DocumentException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -158,6 +157,17 @@ public class AttendanceViewController {
                     }
                 }
             }
+        }
+    }
+
+    @FXML
+    protected void onSaveToPdfButtonClick() {
+        if (datePickerFrom.getValue() == null || datePickerTo.getValue() == null || datePickerFrom.getValue().isAfter(datePickerTo.getValue())) return;
+
+        try {
+            FileUtils.saveStudentsToPdf(students, datePickerFrom.getValue(), datePickerTo.getValue());
+        } catch (DocumentException | FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
